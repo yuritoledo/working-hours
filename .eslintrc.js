@@ -20,7 +20,10 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    semi: ['warn', 'never'],
     'react/jsx-filename-extension': 'off',
     'react/react-in-jsx-scope': 'off',
+    'import/no-unresolved': 'off',
+    'import/extensions': 'off',
   },
-};
+}
