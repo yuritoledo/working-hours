@@ -1,17 +1,18 @@
+import dayjs from 'dayjs'
 import { useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { getWorkerCurrentSituation, postWorkerSituation } from '../../repositories/workingHours'
 import { WorkSituation } from '../../utils/constants'
-import { getNowTime } from '../../utils/helpers'
+import { getCurrentHour } from '../../utils/helpers'
 import { Container, Button } from './styles'
 
 const ActionPanel = () => {
-  const [time, setTime] = useState(getNowTime())
-  const [situation, setSituation] = useState<WorkSituation>(-1)
+  const [date, setDate] = useState(dayjs())
+  const [situation, setSituation] = useState<WorkSituation>(WorkSituation.ARRIVING)
   const [isFetching, setIsFetching] = useState(true)
 
   setInterval(() => {
-    setTime(getNowTime())
+    setDate(dayjs())
   }, 1000)
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const ActionPanel = () => {
     setIsFetching(true)
     const response = await postWorkerSituation({
       situation,
-      time,
+      date,
     })
     setIsFetching(false)
 
@@ -50,6 +51,8 @@ const ActionPanel = () => {
       ? 'Arriving'
       : 'Exiting'
   }, [isFetching])
+
+  const time = getCurrentHour()
 
   return (
     <Container>
