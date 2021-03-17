@@ -10,9 +10,11 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "axios": "^0.21.1",
     "dayjs": "^1.10.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-hot-toast": "^1.0.2",
     "react-scripts": "4.0.3",
     "styled-components": "^5.2.1",
     "typescript": "^4.1.2",
@@ -23,7 +25,7 @@
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "server": "json-server --watch db.json --port 5000"
+    "server": "json-server --watch db.json -p 5000 -d 2000"
   },
   "eslintConfig": {
     "extends": [
@@ -58,7 +60,7 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "json-server": "^0.16.3",
+    "json-server": "^0.15.0",
     "ts-jest": "^26.5.3"
   }
 }
