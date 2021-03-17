@@ -1,5 +1,5 @@
 import axios from 'axios'
 
-export const workingHoursAPI = axios.create({
+export const workingHourService = axios.create({
   baseURL: 'http://localhost:5000/working-hours/',
 })

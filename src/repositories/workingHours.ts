@@ -1,11 +1,11 @@
-import { workingHoursAPI } from '../services/workingHours'
+import { workingHourService } from '../services/workingHours'
 import { WorkSituation } from '../utils/constants'
 
 type GetWorkerCurrentSituation = Promise<{ situation: WorkSituation } | null>
 
 export const getWorkerCurrentSituation = async (): GetWorkerCurrentSituation => {
   try {
-    const response = await workingHoursAPI.get('/')
+    const response = await workingHourService.get('/')
 
     return response.data
   } catch (error) {
@@ -27,7 +27,7 @@ export const postWorkerSituation = async (
     : WorkSituation.EXITING
 
   try {
-    await workingHoursAPI.post('/', params)
+    await workingHourService.post('/', params)
 
     return { nextSituation: nextStatus }
   } catch (error) {
