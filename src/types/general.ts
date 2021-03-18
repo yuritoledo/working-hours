@@ -6,3 +6,8 @@ export type WorkingHours = {
   situation: WorkSituation
   date: Dayjs,
 }
+
+export type HistoryList = Array<{
+  day: string;
+  list: WorkingHours[];
+}>
