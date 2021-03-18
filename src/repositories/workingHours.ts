@@ -58,7 +58,6 @@ export const getAllWorkerHour = async () => {
   try {
     const response = await workingHourService.get<WorkingHours[]>('/')
     const registers = response.data
-
     const days = backendProcessing(registers)
 
     return days
