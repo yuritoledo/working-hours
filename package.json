@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "concurrently 'yarn dev' 'yarn server'",
-    "dev": "react-scripts start",
+    "dev": "react-scripts start -FAST_REFRESH=true",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "server": "json-server --watch db.json -p 5000"
