@@ -1,11 +1,9 @@
 import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
-
+import useSWR from 'swr'
 import { getAllWorkerHour } from '../../repositories/workingHours'
-import { HistoryList } from '../../types/general'
 import { isOdd } from '../../utils/helpers'
 import {
-  Line, Registers, NoResultMessage, Day,
+  Line, Registers, Message, Day,
 } from './styles'
 import { Section as BaseSection } from '../Section'
 
@@ -15,36 +13,36 @@ const Section = ({ children }) => (
   </BaseSection>
 )
 
+const FailMessage = ({ message }) => (
+  <Section>
+    <Message>{message}</Message>
+  </Section>
+)
+
 const History = () => {
-  const [registerList, setRegisterList] = useState<HistoryList>([])
-  const [workedTime, setWorkedTime] = useState('')
+  const { data, error } = useSWR('history', getAllWorkerHour)
 
-  useEffect(() => {
-    const feedList = async () => {
-      const response = await getAllWorkerHour()
-      if (!response) return
-
-      setRegisterList(response.registerList)
-      setWorkedTime(response.workedTime)
-    }
-    feedList()
-  }, [])
-
-  if (!registerList.length) {
+  if (error) {
     return (
-      <Section>
-        <NoResultMessage>
-          No results found
-        </NoResultMessage>
-      </Section>
+      <FailMessage
+        message="Some error happened. Please, try again"
+      />
+    )
+  }
+
+  if (!data?.registerList?.length) {
+    return (
+      <FailMessage
+        message="No results found"
+      />
     )
   }
 
   return (
     <Section>
-      <h1>{`Worked time: ${workedTime}`}</h1>
+      <h1>{`Worked time: ${data.workedTime}`}</h1>
 
-      {registerList.map((register) => (
+      {data?.registerList.map((register) => (
         <Registers key={register.day}>
           <Day>{register.day}</Day>
           <Line>
@@ -59,7 +57,7 @@ const History = () => {
               </span>
             ))}
             {isOdd(register.list.length) && (
-              <span>Pending...</span>
+              <span>Pending</span>
             )}
           </Line>
         </Registers>
