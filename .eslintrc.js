@@ -32,5 +32,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'warn',
     'no-shadow': 'off',
     'react/prop-types': 'off',
+    'no-confusing-arrow': 'off',
   },
 }
