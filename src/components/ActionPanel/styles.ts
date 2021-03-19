@@ -8,11 +8,11 @@ interface ButtonProps {
 const situationColor = (p: ButtonProps) => {
   switch (p.variant) {
     case WorkSituation.ARRIVING:
-      return 'green'
+      return '#008000'
     case WorkSituation.EXITING:
-      return 'red'
+      return '#ff0000'
     default:
-      return 'gray'
+      return '#999'
   }
 }
 
@@ -46,11 +46,8 @@ export const Button = styled.button<ButtonProps>`
   cursor: pointer;
   font-weight: bold;
   font-size: 1.5rem;
+  transition: background-color 200ms, color 500ms, border 500ms;
   &:focus {
     outline: none;
-  }
-  &:hover {
-    transition: transform 300ms;
-    transform: scale(1.02);
   }
 `

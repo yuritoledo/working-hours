@@ -43,7 +43,7 @@ export const Line = styled.div`
   }
 `
 
-export const NoResultMessage = styled.p`
+export const Message = styled.p`
   font-size: 1.2rem;
   text-align: center;
 `
