@@ -1,49 +1,70 @@
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
-import { getAllWorkerHour } from '../../repositories/workingHours'
-import { WorkingHours } from '../../types/general'
-import { Container } from '../ActionPanel/styles'
-import { Line, Registers } from './styles'
 
-type List = {
-  day: string;
-  list: WorkingHours[];
-}[]
+import { getAllWorkerHour } from '../../repositories/workingHours'
+import { HistoryList } from '../../types/general'
+import { isOdd } from '../../utils/helpers'
+import {
+  Line, Registers, NoResultMessage, Day,
+} from './styles'
+import { Section as BaseSection } from '../Section'
+
+const Section = ({ children }) => (
+  <BaseSection width="35" height="50">
+    {children}
+  </BaseSection>
+)
+
 const History = () => {
-  const [list, setList] = useState<List>([])
+  const [registerList, setRegisterList] = useState<HistoryList>([])
+  const [workedTime, setWorkedTime] = useState('')
 
   useEffect(() => {
     const feedList = async () => {
       const response = await getAllWorkerHour()
       if (!response) return
 
-      setList(response)
+      setRegisterList(response.registerList)
+      setWorkedTime(response.workedTime)
     }
     feedList()
   }, [])
-  const isOdd = (value) => value % 2 !== 0
+
+  if (!registerList.length) {
+    return (
+      <Section>
+        <NoResultMessage>
+          No results found
+        </NoResultMessage>
+      </Section>
+    )
+  }
+
   return (
-    <Container>
-      {list.map((dayRegister) => (
-        <Registers key={dayRegister.day}>
-          <h1>{dayRegister.day}</h1>
+    <Section>
+      <h1>{`Worked time: ${workedTime}`}</h1>
+
+      {registerList.map((register) => (
+        <Registers key={register.day}>
+          <Day>{register.day}</Day>
           <Line>
             <span>Arriving</span>
             <span>Breaks</span>
             <span>Exiting</span>
           </Line>
           <Line>
-            {dayRegister.list.map((hour) => (
-              <span>{dayjs(hour.date).format('HH:mm')}</span>
+            {register.list.map((hour) => (
+              <span key={hour.id}>
+                {dayjs(hour.date).format('HH:mm')}
+              </span>
             ))}
-            {isOdd(dayRegister.list.length) && (
+            {isOdd(register.list.length) && (
               <span>Pending...</span>
             )}
           </Line>
         </Registers>
       ))}
-      {/* <button type="button" onClick={() => feedList()}>refresh</button> */}
-    </Container>
+    </Section>
   )
 }
 
