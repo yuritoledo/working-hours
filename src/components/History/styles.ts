@@ -1,42 +1,55 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-
 export const Registers = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  padding: 1rem 0;
 `
 
 export const Line = styled.div`
   display: flex;
-  flex-direction: row;
-  flex: 1;
   justify-content: space-between;
-
+  font-size: 1.3rem;
   span {
-    font-size: 2rem;
+    flex: 3;
+    font-weight: bold;
     :not(:first-child, :last-child) {
-      background-color: peachpuff;
-      margin: auto -6px;
+      flex: 1;
+      font-weight: normal;
+
       &:nth-child(even) {
-        :after {
+        margin-left: 15px;
+        margin-right: 0;
+        text-align: right;
+      }
+
+      &:nth-child(odd) {
+        ::before {
           content: '-'
         }
       }
-      &:nth-child(odd) {
-        margin-left: 6px;
-      }
     }
+
     &:first-child {
-      font-weight: bold;
-      margin-right: 5rem;
+      text-align: left;
+      margin-right: 1rem;
     }
+
     &:last-child {
-      font-weight: bold;
-      margin-left: 5rem;
+      text-align: right;
+      margin-left: 1rem;
     }
   }
+`
+
+export const NoResultMessage = styled.p`
+  font-size: 1.2rem;
+  text-align: center;
+`
+
+export const Day = styled.p`
+  font-size: 1.5rem;
+  margin: 0 15px 0 0;
+
 `

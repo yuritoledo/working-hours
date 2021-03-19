@@ -26,9 +26,7 @@ export const WelcomeMessage = styled.p`
   }
 `
 
-export const Avatar = styled.img.attrs({
-  src: 'https://static.tvtropes.org/pmwiki/pub/images/rco007.jpg',
-})`
+export const Avatar = styled.img`
   height: 200px;
   width: 200px;
   border-radius: 50%;
