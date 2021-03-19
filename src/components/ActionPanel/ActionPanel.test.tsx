@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Toaster } from 'react-hot-toast'
@@ -8,7 +7,7 @@ import { WorkSituation } from '../../utils/constants'
 import { getCurrentHour } from '../../utils/helpers'
 import ActionPanel from './ActionPanel'
 
-const MockedApp = () => (
+const ActionPanelWithToast = () => (
   <>
     <ActionPanel />
     <Toaster
@@ -45,7 +44,7 @@ describe('ActionPanel', () => {
 
   it('should render the current time in clock', async () => {
     mockedGetStatusArriving()
-    render(<MockedApp />)
+    render(<ActionPanelWithToast />)
 
     const time = getCurrentHour()
 
@@ -69,7 +68,7 @@ describe('ActionPanel', () => {
 
   it('should show "Arriving" Button when previous status is Exiting on opening screen', async () => {
     mockedGetStatusArriving()
-    render(<MockedApp />)
+    render(<ActionPanelWithToast />)
 
     expect(
       await screen.findByText('Arriving'),
@@ -82,7 +81,7 @@ describe('ActionPanel', () => {
 
   it('should show "Exiting" Button when previous status is Arriving on opening screen', async () => {
     mockedGetStatusExiting()
-    render(<MockedApp />)
+    render(<ActionPanelWithToast />)
 
     expect(
       await screen.findByText('Exiting'),
@@ -96,7 +95,7 @@ describe('ActionPanel', () => {
   it('should Arriving onPress call API, it should respond successfuly and a success message should be visible', async () => {
     mockedPostWorkerSituationSuccess()
     mockedGetStatusArriving()
-    render(<MockedApp />)
+    render(<ActionPanelWithToast />)
 
     userEvent.click(
       await screen.findByText('Arriving'),
@@ -116,7 +115,7 @@ describe('ActionPanel', () => {
   it('should Arriving onPress call API, it should throw an error and an error message should be visible', async () => {
     mockedPostWorkerSituationWithError()
     mockedGetStatusArriving()
-    render(<MockedApp />)
+    render(<ActionPanelWithToast />)
 
     userEvent.click(
       await screen.findByText('Arriving'),
@@ -136,7 +135,7 @@ describe('ActionPanel', () => {
   it('should Exiting onPress call API, it should respond successfuly and a success message should be visible', async () => {
     mockedPostWorkerSituationSuccess()
     mockedGetStatusExiting()
-    render(<MockedApp />)
+    render(<ActionPanelWithToast />)
 
     userEvent.click(
       await screen.findByText('Exiting'),
@@ -156,7 +155,7 @@ describe('ActionPanel', () => {
   it('should Exiting onPress call API, it should throw an error and an error message should be visible', async () => {
     mockedPostWorkerSituationWithError()
     mockedGetStatusExiting()
-    render(<MockedApp />)
+    render(<ActionPanelWithToast />)
 
     userEvent.click(
       await screen.findByText('Exiting'),
