@@ -49,7 +49,13 @@ export const Message = styled.p`
 `
 
 export const Day = styled.p`
-  font-size: 1.5rem;
+  font-size: 1.9rem;
+  font-weight: bold;
   margin: 0 15px 0 0;
+`
 
+export const WorkedTime = styled.p`
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
 `

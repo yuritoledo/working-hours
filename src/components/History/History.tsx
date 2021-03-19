@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import { getAllWorkerHour } from '../../repositories/workingHours'
 import { isOdd } from '../../utils/helpers'
 import {
-  Line, Registers, Message, Day,
+  Line, Registers, Message, Day, WorkedTime,
 } from './styles'
 import { Section as BaseSection } from '../Section'
 
@@ -40,7 +40,7 @@ const History = () => {
 
   return (
     <Section>
-      <h1>{`Worked time: ${data.workedTime}`}</h1>
+      <WorkedTime>{`Worked time: ${data.workedTime}`}</WorkedTime>
 
       {data?.registerList.map((register) => (
         <Registers key={register.day}>
