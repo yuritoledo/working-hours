@@ -4,28 +4,35 @@ import toast from 'react-hot-toast'
 import { getWorkerCurrentSituation, postWorkerSituation } from '../../repositories/workingHours'
 import { WorkSituation } from '../../utils/constants'
 import { getCurrentHour } from '../../utils/helpers'
-import { Container, Button } from './styles'
+import { Section } from '../Section'
+import {
+  Avatar, Button, Timer, WelcomeMessage,
+} from './styles'
 
 const ActionPanel = () => {
   const [date, setDate] = useState(dayjs())
   const [situation, setSituation] = useState<WorkSituation>(WorkSituation.ARRIVING)
   const [isFetching, setIsFetching] = useState(true)
 
-  setInterval(() => {
-    setDate(dayjs())
-  }, 1000)
-
   useEffect(() => {
     const getInitialSituation = async () => {
-      const response = await getWorkerCurrentSituation()
+      const situation = await getWorkerCurrentSituation()
       setIsFetching(false)
-      if (!response) return
+      if (!situation) return
 
-      setSituation(response.situation)
+      setSituation(situation)
     }
 
     getInitialSituation()
   }, [])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDate(dayjs())
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [date])
 
   const onClickSaveStatus = async () => {
     setIsFetching(true)
@@ -48,19 +55,28 @@ const ActionPanel = () => {
     if (isFetching) return 'Please wait ...'
 
     return situation === WorkSituation.ARRIVING
-      ? 'Arriving'
-      : 'Exiting'
-  }, [isFetching])
+      ? 'Arrive'
+      : 'Exit'
+  }, [situation])
 
   const time = getCurrentHour()
 
   return (
-    <Container>
-      <h1>{time}</h1>
-      <Button type="button" onClick={onClickSaveStatus}>
+    <Section>
+      <WelcomeMessage>
+        Welcome back,
+        <span>Walter Kovacs</span>
+      </WelcomeMessage>
+      <Avatar />
+      <Timer>{time}</Timer>
+      <Button
+        type="button"
+        onClick={onClickSaveStatus}
+        variant={situation}
+      >
         {situationLabel}
       </Button>
-    </Container>
+    </Section>
   )
 }
 
