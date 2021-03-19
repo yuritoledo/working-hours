@@ -64,7 +64,7 @@ export const getWorkerCurrentSituation = async (): GetWorkerCurrentSituation => 
         _order: 'desc',
       },
     })
-    console.log(response)
+
     const lastSituation = response.data[0].situation
     const nextSituation = getNextSituation(lastSituation)
     return nextSituation
