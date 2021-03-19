@@ -3,6 +3,14 @@ import { workingHourService } from '../services/workingHours'
 import { WorkingHours } from '../types/general'
 import { WorkSituation } from '../utils/constants'
 
+const getNextSituation = (situation: WorkSituation) => {
+  if (situation === WorkSituation.EXITING) {
+    return WorkSituation.ARRIVING
+  }
+
+  return WorkSituation.EXITING
+}
+
 const backendProcessing = (registers: WorkingHours[]) => {
   const format = 'DD MMMM'
   const uniqueDays = [...new Set(
@@ -20,13 +28,19 @@ const backendProcessing = (registers: WorkingHours[]) => {
   return days
 }
 
-type GetWorkerCurrentSituation = Promise<{ situation: WorkSituation } | null>
+type GetWorkerCurrentSituation = Promise<WorkSituation | null>
 
 export const getWorkerCurrentSituation = async (): GetWorkerCurrentSituation => {
   try {
-    const response = await workingHourService.get('/')
-
-    return response.data
+    const response = await workingHourService.get<WorkingHours[]>('/', {
+      params: {
+        _sort: 'id',
+        _order: 'desc',
+      },
+    })
+    const lastSituation = response.data[0].situation
+    const nextSituation = getNextSituation(lastSituation)
+    return nextSituation
   } catch (error) {
     return null
   }
@@ -41,9 +55,7 @@ type PostWorkerSituation = Promise<{ nextSituation: WorkSituation } | null>
 export const postWorkerSituation = async (
   params: PostWorkerSituationParams,
 ): PostWorkerSituation => {
-  const nextStatus = params.situation === WorkSituation.EXITING
-    ? WorkSituation.ARRIVING
-    : WorkSituation.EXITING
+  const nextStatus = getNextSituation(params.situation)
 
   try {
     await workingHourService.post('/', params)
@@ -56,7 +68,12 @@ export const postWorkerSituation = async (
 
 export const getAllWorkerHour = async () => {
   try {
-    const response = await workingHourService.get<WorkingHours[]>('/')
+    const response = await workingHourService.get<WorkingHours[]>('/', {
+      params: {
+        _sort: 'id',
+        _order: 'desc',
+      },
+    })
     const registers = response.data
     const days = backendProcessing(registers)
 
