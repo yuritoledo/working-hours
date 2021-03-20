@@ -11,3 +11,8 @@ export type HistoryList = Array<{
   day: string;
   list: WorkingHours[];
 }>
+
+export type AllWorkerHour = {
+  registerList: HistoryList;
+  workedTime: string;
+}
