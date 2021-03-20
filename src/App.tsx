@@ -11,7 +11,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  @media(min-width: 800px) {
+  @media(min-width: 1200px) {
     flex-direction: row;
   }
 `
