@@ -21,15 +21,17 @@ jest.mock('../../repositories/workingHours')
 const mockedGetWorkerCurrentSituation = mocked(getWorkerCurrentSituation)
 const mockedPostWorkerSituation = mocked(postWorkerSituation)
 
-const mockedGetStatusArriving = () => mockedGetWorkerCurrentSituation
-  .mockResolvedValue({
+const mockedGetStatusArrive = () => (
+  mockedGetWorkerCurrentSituation.mockResolvedValue({
     situation: WorkSituation.ARRIVING,
   })
+)
 
-const mockedGetStatusExiting = () => mockedGetWorkerCurrentSituation
-  .mockResolvedValue({
+const mockedGetStatusExit = () => (
+  mockedGetWorkerCurrentSituation.mockResolvedValue({
     situation: WorkSituation.EXITING,
   })
+)
 
 const mockedPostWorkerSituationSuccess = () => mockedPostWorkerSituation
   .mockResolvedValue({ nextSituation: WorkSituation.EXITING })
@@ -43,7 +45,7 @@ describe('ActionPanel', () => {
   })
 
   it('should render the current time in clock', async () => {
-    mockedGetStatusArriving()
+    mockedGetStatusArrive()
     render(<ActionPanelWithToast />)
 
     const time = getCurrentHour()
@@ -53,119 +55,103 @@ describe('ActionPanel', () => {
     ).toBeInTheDocument()
   })
 
-  // it('should show "Arriving" text in Button when is first register', async () => {
-  //   mockReturnStatusArriving()
-  //   render(<MockedApp />)
-
-  //   expect(
-  //     await screen.findByText('Arriving'),
-  //   ).toBeInTheDocument()
-
-  //   expect(
-  //     screen.queryByText('Exiting'),
-  //   ).not.toBeInTheDocument()
-  // })
-
-  it('should show "Arriving" Button when previous status is Exiting on opening screen', async () => {
-    mockedGetStatusArriving()
-    render(<ActionPanelWithToast />)
-
-    expect(
-      await screen.findByText('Arriving'),
-    ).toBeInTheDocument()
-
-    expect(
-      screen.queryByText('Exiting'),
-    ).not.toBeInTheDocument()
-  })
-
-  it('should show "Exiting" Button when previous status is Arriving on opening screen', async () => {
-    mockedGetStatusExiting()
-    render(<ActionPanelWithToast />)
-
-    expect(
-      await screen.findByText('Exiting'),
-    ).toBeInTheDocument()
-
-    expect(
-      screen.queryByText('Arriving'),
-    ).not.toBeInTheDocument()
-  })
-
-  it('should Arriving onPress call API, it should respond successfuly and a success message should be visible', async () => {
-    mockedPostWorkerSituationSuccess()
-    mockedGetStatusArriving()
-    render(<ActionPanelWithToast />)
-
-    userEvent.click(
-      await screen.findByText('Arriving'),
-    )
-
-    expect(mockedPostWorkerSituation).toBeCalledTimes(1)
-    // expect(mockedPostWorkerSituation).toBeCalledWith({
-    //   situation: WorkSituation.ARRIVING,
-    //   date: dayjs(),
-    // })
-
-    expect(
-      await screen.findByText('Success'),
-    ).toBeInTheDocument()
-  })
-
-  it('should Arriving onPress call API, it should throw an error and an error message should be visible', async () => {
+  it('should show "Arrive" text in Button when is first register', async () => {
     mockedPostWorkerSituationWithError()
-    mockedGetStatusArriving()
+    render(<ActionPanelWithToast />)
+
+    expect(
+      await screen.findByText('Arrive'),
+    ).toBeInTheDocument()
+
+    expect(
+      screen.queryByText('Exit'),
+    ).not.toBeInTheDocument()
+  })
+
+  it('should show "Arrive" Button when previous status is Exit on opening screen', async () => {
+    mockedGetStatusArrive()
+    render(<ActionPanelWithToast />)
+
+    expect(
+      await screen.findByText('Arrive'),
+    ).toBeInTheDocument()
+
+    expect(
+      screen.queryByText('Exit'),
+    ).not.toBeInTheDocument()
+  })
+
+  it('should show "Exit" Button when previous status is Arrive on opening screen', async () => {
+    mockedGetStatusExit()
+    render(<ActionPanelWithToast />)
+
+    expect(
+      await screen.findByText('Exit'),
+    ).toBeInTheDocument()
+
+    expect(
+      screen.queryByText('Arrive'),
+    ).not.toBeInTheDocument()
+  })
+
+  it('should Arrive onPress call API, it should respond successfuly and a success message should be visible', async () => {
+    mockedPostWorkerSituationSuccess()
+    mockedGetStatusArrive()
     render(<ActionPanelWithToast />)
 
     userEvent.click(
-      await screen.findByText('Arriving'),
+      await screen.findByText('Arrive'),
     )
 
     expect(mockedPostWorkerSituation).toBeCalledTimes(1)
-    // expect(mockedPostWorkerSituation).toBeCalledWith({
-    //   situation: WorkSituation.ARRIVING,
-    //   date: dayjs(),
-    // })
+
+    expect(
+      await screen.findByText('Success!'),
+    ).toBeInTheDocument()
+  })
+
+  it('should Arrive onPress call API, it should throw an error and an error message should be visible', async () => {
+    mockedPostWorkerSituationWithError()
+    mockedGetStatusArrive()
+    render(<ActionPanelWithToast />)
+
+    userEvent.click(
+      await screen.findByText('Arrive'),
+    )
+
+    expect(mockedPostWorkerSituation).toBeCalledTimes(1)
 
     expect(
       await screen.findByText('An error happened! Try again in a few minutes'),
     ).toBeInTheDocument()
   })
 
-  it('should Exiting onPress call API, it should respond successfuly and a success message should be visible', async () => {
+  it('should Exit onPress call API, it should respond successfuly and a success message should be visible', async () => {
     mockedPostWorkerSituationSuccess()
-    mockedGetStatusExiting()
+    mockedGetStatusExit()
     render(<ActionPanelWithToast />)
 
     userEvent.click(
-      await screen.findByText('Exiting'),
+      await screen.findByText('Exit'),
     )
 
     expect(mockedPostWorkerSituation).toBeCalledTimes(1)
-    // expect(mockedPostWorkerSituation).toBeCalledWith({
-    //   situation: WorkSituation.EXITING,
-    //   date: dayjs(),
-    // })
 
     expect(
-      await screen.findByText('Success'),
+      await screen.findByText('Success!'),
     ).toBeInTheDocument()
   })
 
-  it('should Exiting onPress call API, it should throw an error and an error message should be visible', async () => {
+  it('should Exit onPress call API, it should throw an error and an error message should be visible', async () => {
     mockedPostWorkerSituationWithError()
-    mockedGetStatusExiting()
+    mockedGetStatusExit()
     render(<ActionPanelWithToast />)
 
     userEvent.click(
-      await screen.findByText('Exiting'),
+      await screen.findByText('Exit'),
     )
 
     expect(mockedPostWorkerSituation).toBeCalledTimes(1)
-    // expect(mockedPostWorkerSituation).toBeCalledWith({
-    //   situation: WorkSituation.EXITING,
-    //   date: dayjs(),
-    // })
 
     expect(
       await screen.findByText('An error happened! Try again in a few minutes'),
