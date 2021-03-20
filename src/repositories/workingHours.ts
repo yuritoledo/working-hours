@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs'
 import _chunk from 'lodash.chunk'
 import { workingHourService } from '../services/workingHours'
-import { HistoryList, WorkingHours } from '../types/general'
+import { AllWorkerHour, HistoryList, WorkingHours } from '../types/general'
 import { WorkSituation } from '../utils/constants'
 import { timeConvert } from '../utils/helpers'
 
@@ -54,7 +54,7 @@ const backendProcessingToList = (registers: Register) => {
   return days
 }
 
-type GetWorkerCurrentSituation = Promise<WorkSituation | null>
+type GetWorkerCurrentSituation = Promise<{ situation: WorkSituation } | null>
 
 export const getWorkerCurrentSituation = async (): GetWorkerCurrentSituation => {
   try {
@@ -67,7 +67,7 @@ export const getWorkerCurrentSituation = async (): GetWorkerCurrentSituation => 
 
     const lastSituation = response.data[0].situation
     const nextSituation = getNextSituation(lastSituation)
-    return nextSituation
+    return { situation: nextSituation }
   } catch (error) {
     return null
   }
@@ -93,7 +93,8 @@ export const postWorkerSituation = async (
   }
 }
 
-export const getAllWorkerHour = async () => {
+type xGetAllWorkerHour = Promise<AllWorkerHour | null>
+export const getAllWorkerHour = async (): xGetAllWorkerHour => {
   try {
     const response = await workingHourService.get<WorkingHours[]>('/')
     const registers = response.data
