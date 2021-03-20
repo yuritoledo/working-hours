@@ -17,11 +17,10 @@ const ActionPanel = () => {
 
   useEffect(() => {
     const getInitialSituation = async () => {
-      const situation = await getWorkerCurrentSituation()
+      const response = await getWorkerCurrentSituation()
+      if (!response) return
 
-      if (!situation) return
-
-      setSituation(situation)
+      setSituation(response.situation)
     }
 
     getInitialSituation()
