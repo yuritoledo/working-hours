@@ -17,14 +17,15 @@ export const Line = styled.div`
     :not(:first-child, :last-child) {
       flex: 1;
       font-weight: normal;
+      text-align:center;
 
       &:nth-child(even) {
-        margin-left: 15px;
-        margin-right: 0;
+        margin-left: 7px;
         text-align: right;
       }
 
       &:nth-child(odd) {
+        margin-right: 7px;
         ::before {
           content: '-'
         }
@@ -33,12 +34,10 @@ export const Line = styled.div`
 
     &:first-child {
       text-align: left;
-      margin-right: 1rem;
     }
 
     &:last-child {
       text-align: right;
-      margin-left: 1rem;
     }
   }
 `
