@@ -8,7 +8,7 @@ import {
 import { Section as BaseSection } from '../Section'
 
 const Section = ({ children }) => (
-  <BaseSection width="35" height="50">
+  <BaseSection width="38" height="50">
     {children}
   </BaseSection>
 )
@@ -23,19 +23,11 @@ const History = () => {
   const { data, error } = useSWR('history', getAllWorkerHour)
 
   if (error) {
-    return (
-      <FailMessage
-        message="Some error happened. Please, try again"
-      />
-    )
+    return <FailMessage message="Some error happened. Please, try again" />
   }
 
   if (!data?.registerList?.length) {
-    return (
-      <FailMessage
-        message="No results found"
-      />
-    )
+    return <FailMessage message="No results found" />
   }
 
   return (
@@ -46,9 +38,9 @@ const History = () => {
         <Registers key={register.day}>
           <Day>{register.day}</Day>
           <Line>
-            <span>Arriving</span>
+            <span>Arrived</span>
             <span>Breaks</span>
-            <span>Exiting</span>
+            <span>Exited</span>
           </Line>
           <Line>
             {register.list.map((hour) => (
@@ -57,7 +49,7 @@ const History = () => {
               </span>
             ))}
             {isOdd(register.list.length) && (
-              <span>Pending</span>
+              <span>{' - '}</span>
             )}
           </Line>
         </Registers>
