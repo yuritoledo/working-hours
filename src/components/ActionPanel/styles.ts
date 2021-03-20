@@ -5,8 +5,8 @@ interface ButtonProps {
   variant: WorkSituation
 }
 
-const situationColor = (p: ButtonProps) => {
-  switch (p.variant) {
+const situationColor = (params: ButtonProps) => {
+  switch (params.variant) {
     case WorkSituation.ARRIVING:
       return '#008000'
     case WorkSituation.EXITING:
@@ -22,7 +22,7 @@ export const WelcomeMessage = styled.p`
   font-weight: bold;
   span {
     display: block;
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 `
 
