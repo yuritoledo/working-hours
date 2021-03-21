@@ -27,7 +27,7 @@ const History = () => {
   }
 
   if (!data?.registerList?.length) {
-    return <FailMessage message="No results found. What do you think about start to work?" />
+    return <FailMessage message="No results found." />
   }
 
   return (
