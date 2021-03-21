@@ -1,10 +1,23 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+
+const slideUp = keyframes`
+ from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+`
 
 export const Registers = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   padding: 1rem 0;
+  animation: ${slideUp} 2s ease;
 `
 
 export const Line = styled.div`
@@ -12,6 +25,7 @@ export const Line = styled.div`
   justify-content: space-between;
   font-size: 1.3rem;
   span {
+    animation: ${slideUp} 1s ease;
     flex: 3;
     font-weight: bold;
     :not(:first-child, :last-child) {
