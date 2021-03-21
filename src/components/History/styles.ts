@@ -71,4 +71,5 @@ export const WorkedTime = styled.p`
   font-size: 2rem;
   font-weight: bold;
   margin: 0;
+  animation: ${slideUp} 2s ease;
 `
