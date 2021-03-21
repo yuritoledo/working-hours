@@ -55,7 +55,7 @@ describe('History', () => {
 
     await waitFor(
       () => expect(
-        screen.queryByText('No results found'),
+        screen.queryByText('No results found. What do you think about start to work?'),
       ).not.toBeInTheDocument(),
     )
 
@@ -73,12 +73,12 @@ describe('History', () => {
     })
   })
 
-  it('should show "No results found" message on list when it was empty', async () => {
+  it('should show "No results found. What do you think about start to work?" message on list when it was empty', async () => {
     mockGetAllWorkerHourReturn(null)
     render(<HistoryWithSWR />)
 
     expect(
-      await screen.findByText('No results found'),
+      await screen.findByText('No results found. What do you think about start to work?'),
     ).toBeInTheDocument()
 
     expect(mockedGetAllWorkerHour).toBeCalledTimes(1)
@@ -100,7 +100,7 @@ describe('History', () => {
     render(<HistoryWithSWR />)
 
     expect(
-      await screen.findByText('No results found'),
+      await screen.findByText('No results found. What do you think about start to work?'),
     ).toBeInTheDocument()
   })
 
