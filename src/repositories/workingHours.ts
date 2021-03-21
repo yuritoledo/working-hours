@@ -37,7 +37,7 @@ const getNextSituation = (situation: WorkSituation) => {
   return WorkSituation.EXITING
 }
 
-const backendProcessingToList = (registers: Register) => {
+const backendProcessingRegisterList = (registers: Register) => {
   const format = 'DD MMMM'
   const uniqueDays = [...new Set(
     registers.map((reg) => dayjs(reg.date).format(format)),
@@ -98,7 +98,7 @@ export const getAllWorkerHour = async (): xGetAllWorkerHour => {
   try {
     const response = await workingHourService.get<WorkingHours[]>('/')
     const registers = response.data
-    const registerList = backendProcessingToList(registers)
+    const registerList = backendProcessingRegisterList(registers)
     const workedTime = backendProcessingWorkingTime(registerList)
 
     return { registerList, workedTime }
