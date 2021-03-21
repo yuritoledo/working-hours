@@ -85,7 +85,7 @@ describe('History', () => {
   })
 
   it('should show "Some error happened. Please, try again" message on list when api return error', async () => {
-    mockedGetAllWorkerHour.mockRejectedValue('alo')
+    mockedGetAllWorkerHour.mockRejectedValue('Error')
     render(<HistoryWithSWR />)
 
     expect(
