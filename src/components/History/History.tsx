@@ -5,7 +5,7 @@ import { isOdd } from '../../utils/helpers'
 import {
   Line, Registers, Message, Day, WorkedTime,
 } from './styles'
-import { Section as BaseSection } from '../Section'
+import { Section as BaseSection } from '../Section/Section'
 
 const Section = ({ children }) => (
   <BaseSection width="38" height="50">

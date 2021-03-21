@@ -5,7 +5,7 @@ import { mutate } from 'swr'
 import { getWorkerCurrentSituation, postWorkerSituation } from '../../repositories/workingHours'
 import { WorkSituation } from '../../utils/constants'
 import { getCurrentHour } from '../../utils/helpers'
-import { Section } from '../Section'
+import { Section } from '../Section/Section'
 import {
   Avatar, Button, Timer, WelcomeMessage,
 } from './styles'
